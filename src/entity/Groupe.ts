@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, JoinTable, ManyToMany } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, JoinTable, ManyToMany, OneToMany } from "typeorm";
+import { Category } from "./Category";
 import { Member } from "./Member";
 
 @Entity()
@@ -10,9 +11,15 @@ export class Groupe {
     @Column()
     name: string;
 
-   // relation 
-   // plus members belongs to many groupes
     @ManyToMany(() => Member, {cascade: true})
     @JoinTable()
     members: Member[];
+
+
+   
+    
+     // A Group can have many category... 
+
+     @OneToMany(() => Category, category =>  category.groupe)
+     categories: Category[]
 }

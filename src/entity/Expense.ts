@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, ManyToOne } from "typeorm";
-import { Groupe } from "./Groupe";
+import { Category } from "./Category";
 import { Member } from "./Member";
 
 @Entity()
@@ -13,5 +13,9 @@ export class Expense {
 
     @ManyToOne(() => Member, member => member.expenses)
     member: Member;
+
+    // Many expenses belongs to one category... 
+    @ManyToOne(() => Category, category => category.expenses)
+    category: Category;
 
 }

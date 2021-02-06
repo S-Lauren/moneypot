@@ -1,13 +1,14 @@
 const cors = require('cors');
-import  { Request, Response } from "express";
 import express = require("express");
 import bodyParser = require("body-parser");
 
 import { Connection, createConnection, getConnectionOptions, getRepository, Repository } from "typeorm";
-import { User } from "./entity/User";
 import { Member } from "./entity/Member";
 import { Groupe } from "./entity/Groupe";
 import { Expense } from "./entity/Expense";
+import { Category } from "./entity/Category";
+import { clearScreenDown } from "readline";
+const groupRoutes = require("./routes/groupRoutes")
 
 const port = process.env.PORT || 3000; 
 
@@ -15,24 +16,32 @@ export const app: express.Application = express();
 
 app.use(cors());
 app.use(bodyParser.json());
-
+app.use('/api/groupe', groupRoutes);
 createConnection().then(async connection => {
   
+// REPOS/// 
+    const expenseRepo = await getRepository(Expense); 
+    const catRepo = await getRepository(Category); 
+    const rq = await getRepository(Groupe)
+        .createQueryBuilder('groupe')
+        .leftJoinAndSelect('groupe.members', 'members')
+        .leftJoinAndSelect('groupe.categories', 'category')
+        .leftJoinAndSelect('category.expenses', 'expense')
+        .leftJoinAndSelect('expense.category', 'expenses')
+        // .leftJoinAndSelect('member.expenses', 'expenses')
+        .getMany()
 
-    // find a member
-    const member1 = await getRepository(Member).findOne(12);
 
-    // Add new Expense
-    // const expense = new Expense();
-    // expense.amount = 10; 
-    // expense!.member = member1!;
-    // const expenseRepo = await getRepository(Expense);
-    // await expenseRepo.save(expense)
-
-    const repository = await connection.getRepository(Member);
-    const test = await repository.findOne(12, {relations: ["expenses"]});
-    console.log(test)
+    console.log(await expenseRepo.find({relations: ["category", "member"]}))
+    for(const x of rq) {
+        console.log(x.categories)
+      
+    }
+   
 })
+
+// API routes...
+
 
 
 app.listen(port, () => {

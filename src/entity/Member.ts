@@ -16,8 +16,5 @@ export class Member {
 
     @OneToMany(() => Expense, expense => expense.member)
     expenses: Expense[];
-   //relation n : n
-    // @ManyToMany(type => Groupe, groupe => groupe.members)
-    // @JoinTable()
-    // groupes: Groupe[];
+
 }

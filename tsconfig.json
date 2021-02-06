@@ -6,6 +6,7 @@
          "ESNext",
          "dom"
       ],
+      "allowJs": true,
       "strictPropertyInitialization": false,
       "baseUrl": ".",
       "paths": {
