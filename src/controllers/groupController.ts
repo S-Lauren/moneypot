@@ -2,10 +2,10 @@ const { addGroupe } = require ('./../services/groupService');
 
 
 import { Groupe } from './../entity/Groupe';
-import { Connection, getRepository } from "typeorm";
+import { getRepository } from "typeorm";
 import { Request, Response } from 'express';
-import { Category } from './../entity/Category';
-import { Param } from 'typescript-rest';
+import { addMemberToGroupe } from './../services/groupService';
+import { Member } from './../entity/Member';
 
 
 // GET: api/groupes
@@ -49,6 +49,20 @@ export const updateGroup = async (req: Request, res: Response) => {
         res.status(200).json(groupeId);
     } catch (err) {
         if (err) {
+            res.status(500).json(err)
+        }
+    }
+}
+// api/groupe/id/
+export const sendInvitationLink = async (req: Request, res: Response) => {
+    try {
+        const id = req.params.id;
+        const memberId = req.params.memberId;
+        await addMemberToGroupe(memberId,id)
+        res.sendStatus(201);
+    } catch (err) {
+        if (err) {
+            console.log(err)
             res.status(500).json(err)
         }
     }

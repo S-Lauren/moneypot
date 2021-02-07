@@ -1,6 +1,7 @@
 import { Groupe } from './../entity/Groupe';
 import { getRepository } from 'typeorm';
 import { Expense } from './../entity/Expense';
+import { Member } from './../entity/Member';
 
 
 
@@ -36,4 +37,17 @@ export const addGroupe = async (groupeName: string) => {
     await groupeRepo.save(groupe);
 }
 
+export const addMemberToGroupe = async (memberId: string, groupeId: string) => {
+
+    const member2 = await getRepository(Member).findOne(memberId);
+    const groupe2: any = await getRepository(Groupe).findOne(groupeId, { relations: ["members"] });
+    groupe2.members.push(member2!)
+    await getRepository(Groupe).save(groupe2)
+
+    // const groupeRepo = await getRepository(Groupe);
+    // const groupe = await groupeRepo.findOne(groupeId, {relations: ["members"]})
+    // const memberRepo = await getRepository(Member).findOne(memberId);
+    // groupe!.members.push(memberRepo)
+    // await getRepository(Groupe).save(groupe!);
+}
 
