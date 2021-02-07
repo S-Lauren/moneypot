@@ -3,11 +3,15 @@ import express = require("express");
 import bodyParser = require("body-parser");
 
 import { Connection, createConnection, getConnectionOptions, getRepository, Repository } from "typeorm";
-import { Member } from "./entity/Member";
+
 import { Groupe } from "./entity/Groupe";
 import { Expense } from "./entity/Expense";
 import { Category } from "./entity/Category";
-import { clearScreenDown } from "readline";
+import { split } from "./services/groupService";
+import { Member } from "./entity/Member";
+
+
+
 const groupRoutes = require("./routes/groupRoutes")
 
 const port = process.env.PORT || 3000; 
@@ -31,10 +35,16 @@ createConnection().then(async connection => {
         // .leftJoinAndSelect('member.expenses', 'expenses')
         .getMany()
 
+    // console.log(await expenseRepo.find({relations: ["category", "member"]}))
+    split()
+//     const member2 = await getRepository(Member).findOne(2);
+//     const groupe2 = await getRepository(Groupe).findOne(2, {relations: ["members"]});
+// // console.log(groupe2)
+//     groupe2!.members.push(member2!)
+//     await getRepository(Groupe).save(groupe2!)
 
-    console.log(await expenseRepo.find({relations: ["category", "member"]}))
     for(const x of rq) {
-        console.log(x.categories)
+        console.log(x)
       
     }
    
