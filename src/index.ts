@@ -13,6 +13,7 @@ import { Member } from "./entity/Member";
 
 
 const groupRoutes = require("./routes/groupRoutes")
+const categoryRoutes = require("./routes/categoryRoutes")
 
 const port = process.env.PORT || 3000; 
 
@@ -21,11 +22,13 @@ export const app: express.Application = express();
 app.use(cors());
 app.use(bodyParser.json());
 app.use('/api/groupe', groupRoutes);
+app.use('/api/category', categoryRoutes);
+
 createConnection().then(async connection => {
   
 // REPOS/// 
     const expenseRepo = await getRepository(Expense); 
-    const catRepo = await getRepository(Category); 
+    const catRepo = await getRepository(Category).find({relations: ["groupe"]}); 
     const rq = await getRepository(Groupe)
         .createQueryBuilder('groupe')
         .leftJoinAndSelect('groupe.members', 'members')
@@ -42,7 +45,7 @@ createConnection().then(async connection => {
 // // console.log(groupe2)
 //     groupe2!.members.push(member2!)
 //     await getRepository(Groupe).save(groupe2!)
-
+    console.log(catRepo)
     for(const x of rq) {
         console.log(x)
       

@@ -29,6 +29,8 @@ import { Member } from './../entity/Member';
 
     //    return ({ members: memberName, totalSplit: totalSplit})
     }
+
+
 export const addGroupe = async (groupeName: string) => {
     const groupeRepo = await getRepository(Groupe);
     const groupe = new Groupe()
@@ -43,11 +45,5 @@ export const addMemberToGroupe = async (memberId: string, groupeId: string) => {
     const groupe2: any = await getRepository(Groupe).findOne(groupeId, { relations: ["members"] });
     groupe2.members.push(member2!)
     await getRepository(Groupe).save(groupe2)
-
-    // const groupeRepo = await getRepository(Groupe);
-    // const groupe = await groupeRepo.findOne(groupeId, {relations: ["members"]})
-    // const memberRepo = await getRepository(Member).findOne(memberId);
-    // groupe!.members.push(memberRepo)
-    // await getRepository(Groupe).save(groupe!);
 }
 
