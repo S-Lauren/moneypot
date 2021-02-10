@@ -1,11 +1,8 @@
 import { Category } from "./../entity/Category"
 import { getRepository } from "typeorm"
 import { Request, Response } from 'express';
-import { Groupe } from "./../entity/Groupe";
-import { Member } from "./../entity/Member";
-import { Expense } from "./../entity/Expense";
 
-
+// POST : api/category -- Maybe Need Service to deleguate Controller...
 export const createCategory = async(req: Request, res: Response) => {
 
     try {
@@ -19,7 +16,6 @@ export const createCategory = async(req: Request, res: Response) => {
         console.log(e)
         res.status(500).json(e)
     }
- 
 }
 
-// category/:id/member/:memberId
+
