@@ -5,7 +5,7 @@ import { Groupe } from './../entity/Groupe';
 import { getRepository } from "typeorm";
 import { Request, Response } from 'express';
 import { addMemberToGroupe } from './../services/groupService';
-import { Member } from './../entity/Member';
+
 
 
 // GET: api/groupes
@@ -61,10 +61,7 @@ export const sendInvitationLink = async (req: Request, res: Response) => {
         await addMemberToGroupe(memberId,id)
         res.sendStatus(201);
     } catch (err) {
-        if (err) {
-            console.log(err)
-            res.status(500).json(err)
-        }
+        res.status(500).json(err)
     }
 }
 
